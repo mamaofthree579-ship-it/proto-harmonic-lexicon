@@ -1,0 +1,21 @@
+id,culture_region,site_name,latitude,longitude,artifact_type,chronology_bce,symbol_name,image_path,symmetry_order,node_density,fractal_dimension,harmonic_ratio,semantic_concept,comparative_match,cross_entropy_score,resonance_frequency_hz,references,notes
+MTR001,Mediterranean,Knossos (Crete),35.2981,25.1636,Seal,3500,Spiral-Triskelion,images/MTR001.svg,3,0.45,1.27,3:2,Cycle of renewal,TML012,0.84,128.5,Evans 1935; Renfrew 1972,Fragmentary; typical triskelion.
+MTR002,Mediterranean,Mnajdra (Malta),35.8272,14.4683,Megalith carving,3600,Concentric Circles,images/MTR002.svg,0,0.3,1.1,3:1,Cosmic cycles,TML015,0.78,256.0,Trump 1966,Multiple concentric rings.
+MTR003,Mediterranean,Byblos (Lebanon),34.1214,35.6512,Seal,3300,Twin Serpents,images/MTR003.svg,2,0.52,1.45,5:3,Energy duality,TML003,0.81,192.3,Mallowan 1955,Seal motif with mirrored serpents.
+MTR004,Mediterranean,Phaistos (Crete),35.0395,25.057,Disk,1700,Central Point-Radiant Lines,images/MTR004.svg,8,0.6,1.62,7:4,Source/emanation,TML009,0.76,300.0,Popham 1960,Radial disk with central bindu.
+MTR005,Mediterranean,Tarxien (Malta),35.8789,14.48,Temple floor,3200,Four-Leaf Quincunx,images/MTR005.svg,4,0.4,1.2,2:1,Cardinal harmony,TML018,0.72,110.0,Trump 1966,Quincunx layout in floor motifs.
+MTR006,Mediterranean,Akrotiri (Thera),36.3925,25.431,Pottery,1600,Wave-Line,images/MTR006.svg,0,0.33,1.05,5:2,Flow of prana,TML007,0.7,150.2,Doumas 1992,Sea-wave decorative band.
+MTR007,Mediterranean,Gournia (Crete),35.1619,25.6103,Seal,1800,Lotus-Rosette,images/MTR007.svg,8,0.5,1.34,8:5,Unfolding consciousness,TML020,0.69,220.0,Vandiver 1986,Rosette motif common on seals.
+MTR008,Mediterranean,Enkomi (Cyprus),35.0136,33.9615,Stone carving,1400,Horned Crescent,images/MTR008.svg,2,0.38,1.15,9:4,Lunar rhythm,TML005,0.66,95.0,Friedman 1980,Bull-horn/crescent hybrid.
+MTR009,Mediterranean,Pylos (Greece),36.924,21.6815,Palace tessera,1300,Stepped Triangle,images/MTR009.svg,1,0.29,1.0,4:3,Ascent/divine axis,TML002,0.68,170.0,Chadwick 1958,Stepped motif on architecture.
+MTR010,Mediterranean,Byblos (Lebanon),34.1214,35.6512,Seal,3000,Water-Seed Glyph,images/MTR010.svg,0,0.42,1.18,2:1,Life from hidden waters,TML011,0.8,130.0,Levy 1990,Wave-like seed symbol.
+TML001,Tamilakam,Adichanallur (Tamil Nadu),9.481,77.915,Terracotta,1500,Concentric Rings Kolam,images/TML001.svg,0,0.34,1.12,3:1,Cosmic cycles,MTR002,0.78,255.5,Sathya 2005,Floor pattern tradition.
+TML002,Tamilakam,Keeladi (Tamil Nadu),9.932,78.119,Pottery,600,Stepped Triangle (Malai),images/TML002.svg,1,0.28,1.02,4:3,Ascent/divine axis,MTR009,0.68,168.0,Narayana 2019,Temple stylized mountain.
+TML003,Tamilakam,Dholavira (Indus),23.863,70.127,Seal,2400,Twin Nagas,images/TML003.svg,2,0.55,1.48,5:3,Energy duality,MTR003,0.81,190.0,Possehl 1990,Paired serpent imagery.
+TML004,Tamilakam,Poompuhar (Tamil Nadu),10.7867,79.8404,Kolam,500,Wave-Line (Alai),images/TML004.svg,0,0.36,1.08,5:2,Flow of life energy,MTR006,0.7,152.0,Venkataraman 2010,Coastal kolam wave motifs.
+TML005,Tamilakam,Kaveripattinam (Poompuhar),11.0799,79.7992,Temple carving,800,Horned Crescent,images/TML005.svg,2,0.37,1.14,9:4,Lunar fertility,MTR008,0.66,96.0,Subramanian 2001,Moon-horn motifs.
+TML006,Tamilakam,Mylapore (Chennai),13.023,80.269,Kolam,1200,Central Bindu with Rays,images/TML006.svg,8,0.58,1.6,7:4,Source/emanation,MTR004,0.76,298.0,Raman 1998,Bindu-centric kolam.
+TML007,Tamilakam,Sivakasi (Tamil Nadu),9.453,77.804,Pottery band,1000,Wave Band,images/TML007.svg,0,0.31,1.04,5:2,Sea rhythm,MTR006,0.69,149.5,Kumar 2003,Wave motif on pottery.
+TML008,Tamilakam,Arikamedu (Pondicherry),11.8867,79.7961,Sealing,200,Rosette-Lotus,images/TML008.svg,8,0.49,1.32,8:5,Solar emergence,MTR007,0.7,218.0,Sankalia 1974,Rosette on sealing.
+TML009,Tamilakam,Kanchipuram (Tamil Nadu),12.8342,79.7041,Temple tile,900,Radiant Lines,images/TML009.svg,8,0.56,1.58,7:4,Consciousness emanation,MTR004,0.75,305.0,Kumar 1989,Radiant motif in temple paving.
+TML010,Tamilakam,Sengalipuram (Tamil Nadu),10.87,79.588,Kolam,600,Four-Leaf Kolam,images/TML010.svg,4,0.42,1.18,2:1,Fourfold balance,MTR005,0.72,111.0,Venkatesan 1995,Common domestic kolam.

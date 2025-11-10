@@ -187,7 +187,7 @@ with tab1:
         st.info("No network edges found for current filter set.")
 
 # ============================================================
-# TAB 2: RESONANCE WHEEL (v2 with export + label control)
+# TAB 2: RESONANCE WHEEL (v3 — safe export + label control)
 # ============================================================
 with tab2:
     st.subheader("Resonance Wheel — Harmonic Frequency Map")
@@ -204,7 +204,7 @@ with tab2:
         filtered['angle'] = filtered['harmonic_ratio'].apply(ratio_to_angle)
         filtered['radius'] = filtered['cross_entropy_score'] * 2 + 1
 
-        # Label visibility control
+        # UI controls
         show_labels = st.checkbox("Show motif labels", value=False)
         point_size = st.slider("Point size", 5, 25, 12)
         opacity = st.slider("Point opacity", 0.3, 1.0, 0.8)
@@ -236,23 +236,34 @@ with tab2:
 
         st.plotly_chart(fig3, use_container_width=True)
 
-        # Export section
+        # --------------------------------------------------------
+        # EXPORT SECTION (Safe)
+        # --------------------------------------------------------
         st.markdown("#### Export Resonance Wheel")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.download_button(
-                label="Download as SVG",
-                data=fig3.to_image(format="svg"),
-                file_name="resonance_wheel.svg",
-                mime="image/svg+xml"
-            )
-        with col2:
-            st.download_button(
-                label="Download as PNG",
-                data=fig3.to_image(format="png"),
-                file_name="resonance_wheel.png",
-                mime="image/png"
-            )
+
+        try:
+            import kaleido  # ensure available
+            from io import BytesIO
+
+            buf_svg, buf_png = BytesIO(), BytesIO()
+            fig3.write_image(buf_svg, format="svg")
+            fig3.write_image(buf_png, format="png")
+            st.download_button("Download as SVG",
+                               data=buf_svg.getvalue(),
+                               file_name="resonance_wheel.svg",
+                               mime="image/svg+xml")
+            st.download_button("Download as PNG",
+                               data=buf_png.getvalue(),
+                               file_name="resonance_wheel.png",
+                               mime="image/png")
+        except Exception as e:
+            st.info(f"Export unavailable: {e}")
+            st.caption("Install `pip install -U kaleido` locally for SVG/PNG export support.")
+
+        st.caption("Tip: Hide labels for dense selections to avoid overlap.")
+    else:
+        st.warning("No motifs to visualize. Adjust filters.")
+
 
         st.caption("Tip: Hide labels for dense selections to avoid overlap.")
     else:

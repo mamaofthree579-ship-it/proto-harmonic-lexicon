@@ -55,11 +55,17 @@ with st.sidebar:
         options=sorted(df['harmonic_ratio'].dropna().unique()),
         default=sorted(df['harmonic_ratio'].dropna().unique())
     )
-
-    clusters = st.multiselect(
+    
+    frequency_selected = []
+if 'frequency_cluster' in df.columns:
+    frequency_selected = st.multiselect(
         "Frequency Cluster",
         options=sorted(df['frequency_cluster'].dropna().unique()),
-        default=sorted(df['frequency_cluster'].dropna().unique())
+        default=None
+    )
+else:
+    st.info("⚙️ Column 'frequency_cluster' not found — skipping this filter for now.")
+
     )
 
     min_score = st.slider("Min Cross-Entropy Score", 0.0, 1.0, 0.6, 0.01)

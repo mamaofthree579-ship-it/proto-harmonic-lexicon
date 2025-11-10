@@ -3,7 +3,7 @@ import pandas as pd
 import networkx as nx
 import plotly.express as px
 import plotly.graph_objects as go
-import json, os, base64
+import json, os, base64, math
 
 # ----------------------------------------------
 # PAGE CONFIG
@@ -39,12 +39,6 @@ def load_data(csv_path='data/motifs_expanded.csv', json_path='data/motifs.json')
 df, jdata = load_data()
 
 # ----------------------------------------------
-# TITLE AND DESCRIPTION
-# ----------------------------------------------
-st.title("Proto-Shared Harmonic Lexicon — Atlas")
-st.caption("A cross-cultural dataset of symbolic harmonics across Mediterranean and Tamil/Indus civilizations")
-
-# ----------------------------------------------
 # SIDEBAR FILTERS
 # ----------------------------------------------
 with st.sidebar:
@@ -69,10 +63,10 @@ with st.sidebar:
     )
 
     min_score = st.slider("Min Cross-Entropy Score", 0.0, 1.0, 0.6, 0.01)
-
     show_images = st.checkbox("Show motif image", value=True)
 
     st.markdown("---")
+
     # Safe downloads
     if os.path.exists('data/motifs_expanded.csv'):
         st.download_button(
@@ -102,14 +96,18 @@ filtered = df[
 st.sidebar.markdown(f"**Filtered motifs:** {len(filtered)}")
 
 # ----------------------------------------------
-# MAIN LAYOUT
+# MAIN LAYOUT: TABS
 # ----------------------------------------------
-left, right = st.columns([2, 1])
+tab1, tab2, tab3 = st.tabs([
+    "Atlas View",
+    "Resonance Wheel",
+    "Motif Detail"
+])
 
-# ==============================================
-# LEFT PANEL — MAP + SPECTRAL DISTRIBUTION + NETWORK
-# ==============================================
-with left:
+# ============================================================
+# TAB 1: ATLAS VIEW (MAP + NETWORK)
+# ============================================================
+with tab1:
     st.subheader("Geographic Distribution")
     if filtered[['latitude', 'longitude']].dropna().shape[0] > 0:
         st.map(
@@ -129,10 +127,7 @@ with left:
             color='culture_region',
             hover_data=['id', 'symbol_name', 'harmonic_ratio']
         )
-        fig.update_layout(
-            height=350,
-            margin=dict(t=30, b=10, l=10, r=10)
-        )
+        fig.update_layout(height=350, margin=dict(t=30, b=10, l=10, r=10))
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("No data to display for current filters.")
@@ -141,13 +136,11 @@ with left:
     G = nx.Graph()
 
     for _, row in filtered.iterrows():
-        G.add_node(
-            row['id'],
-            label=row['symbol_name'],
-            region=row['culture_region'],
-            ratio=row['harmonic_ratio'],
-            score=row['cross_entropy_score']
-        )
+        G.add_node(row['id'],
+                   label=row['symbol_name'],
+                   region=row['culture_region'],
+                   ratio=row['harmonic_ratio'],
+                   score=row['cross_entropy_score'])
         match = row.get('comparative_match', '')
         if isinstance(match, str) and match.strip() != '':
             if match in filtered['id'].values:
@@ -174,8 +167,7 @@ with left:
         node_x, node_y, node_text, node_color = [], [], [], []
         for n, data in G.nodes(data=True):
             x, y = pos[n]
-            node_x.append(x)
-            node_y.append(y)
+            node_x.append(x); node_y.append(y)
             node_text.append(f"{n}: {data.get('label', '')}\n"
                              f"{data.get('region', '')} | ratio={data.get('ratio', '')} | score={data.get('score', '')}")
             node_color.append(0 if data.get('region') == 'Mediterranean' else 1)
@@ -188,22 +180,62 @@ with left:
             hoverinfo='text'
         )
 
-        fig2 = go.Figure(
-            data=[edge_trace, node_trace],
-            layout=go.Layout(
-                showlegend=False,
-                height=450,
-                margin=dict(t=20, b=20, l=20, r=20)
-            )
-        )
+        fig2 = go.Figure(data=[edge_trace, node_trace],
+                         layout=go.Layout(showlegend=False, height=450, margin=dict(t=20, b=20, l=20, r=20)))
         st.plotly_chart(fig2, use_container_width=True)
     else:
         st.info("No network edges found for current filter set.")
 
-# ==============================================
-# RIGHT PANEL — DETAIL VIEW
-# ==============================================
-with right:
+# ============================================================
+# TAB 2: RESONANCE WHEEL
+# ============================================================
+with tab2:
+    st.subheader("Resonance Wheel — Harmonic Frequency Map")
+
+    if not filtered.empty:
+        # Convert harmonic ratio to numeric angle
+        def ratio_to_angle(r):
+            try:
+                a, b = map(float, str(r).split(':'))
+                return (a / b) * 360 % 360
+            except:
+                return 0
+
+        filtered['angle'] = filtered['harmonic_ratio'].apply(ratio_to_angle)
+        filtered['radius'] = filtered['cross_entropy_score'] * 2 + 1
+
+        fig3 = go.Figure()
+
+        for region in filtered['culture_region'].unique():
+            sub = filtered[filtered['culture_region'] == region]
+            fig3.add_trace(go.Scatterpolar(
+                r=sub['radius'],
+                theta=sub['angle'],
+                mode='markers+text',
+                text=sub['symbol_name'],
+                textposition='top center',
+                name=region,
+                marker=dict(size=10, symbol='circle')
+            ))
+
+        fig3.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=False),
+                angularaxis=dict(direction='clockwise')
+            ),
+            showlegend=True,
+            height=600,
+            margin=dict(t=30, b=30, l=10, r=10)
+        )
+
+        st.plotly_chart(fig3, use_container_width=True)
+    else:
+        st.warning("No motifs to visualize. Adjust filters.")
+
+# ============================================================
+# TAB 3: MOTIF DETAIL VIEW
+# ============================================================
+with tab3:
     st.subheader("Motif Detail Viewer")
 
     if len(filtered) > 0:

@@ -80,86 +80,26 @@ tab1, tab2, tab3, tab4 = st.tabs([
 ])
 
 # ============================================================
-# TAB 1: ATLAS VIEW (MAP + NETWORK)
+# TAB 1: ATLAS MAP VIEW — SAFE COORDINATE HANDLING
 # ============================================================
+
 with tab1:
-    st.subheader("Geographic Distribution")
-    if filtered[['latitude', 'longitude']].dropna().shape[0] > 0:
-        st.map(
-            filtered[['latitude', 'longitude']]
-            .rename(columns={'latitude': 'lat', 'longitude': 'lon'})
-            .dropna()
-        )
+    st.subheader("Cultural Motif Atlas — Mediterranean ↔ Tamil Continuum")
+
+    # Check if coordinates exist
+    if 'latitude' in filtered.columns and 'longitude' in filtered.columns:
+        coords = filtered[['latitude', 'longitude']].dropna()
+        if coords.shape[0] > 0:
+            st.map(filtered, latitude='latitude', longitude='longitude')
+        else:
+            st.info("🗺️ No coordinate data available to map.")
     else:
-        st.info("No geographic coordinates available for selected motifs.")
+        st.info("🗺️ Columns 'latitude' and 'longitude' not found — skipping map view.")
 
-    st.subheader("Spectral Distribution")
-    if not filtered.empty:
-        fig = px.scatter(
-            filtered,
-            x='node_density',
-            y='cross_entropy_score',
-            color='culture_region',
-            hover_data=['id', 'symbol_name', 'harmonic_ratio']
-        )
-        fig.update_layout(height=350, margin=dict(t=30, b=10, l=10, r=10))
-        st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.warning("No data to display for current filters.")
-
-    st.subheader("Motif Correlation Network (strong matches)")
-    G = nx.Graph()
-
-    for _, row in filtered.iterrows():
-        G.add_node(row['id'],
-                   label=row['symbol_name'],
-                   region=row['culture_region'],
-                   ratio=row['harmonic_ratio'],
-                   score=row['cross_entropy_score'])
-        match = row.get('comparative_match', '')
-        if isinstance(match, str) and match.strip() != '':
-            if match in filtered['id'].values:
-                w = (
-                    float(row.get('cross_entropy_score', 0.0)) +
-                    float(filtered[filtered['id'] == match].iloc[0]['cross_entropy_score'])
-                ) / 2.0
-                G.add_edge(row['id'], match, weight=w)
-
-    if len(G.nodes) > 0:
-        pos = nx.spring_layout(G, seed=42, k=0.5)
-        edge_x, edge_y = [], []
-        for u, v in G.edges():
-            x0, y0 = pos[u]; x1, y1 = pos[v]
-            edge_x += [x0, x1, None]; edge_y += [y0, y1, None]
-
-        edge_trace = go.Scatter(
-            x=edge_x, y=edge_y,
-            mode='lines',
-            line=dict(width=1, color='#999'),
-            hoverinfo='none'
-        )
-
-        node_x, node_y, node_text, node_color = [], [], [], []
-        for n, data in G.nodes(data=True):
-            x, y = pos[n]
-            node_x.append(x); node_y.append(y)
-            node_text.append(f"{n}: {data.get('label', '')}\n"
-                             f"{data.get('region', '')} | ratio={data.get('ratio', '')} | score={data.get('score', '')}")
-            node_color.append(0 if data.get('region') == 'Mediterranean' else 1)
-
-        node_trace = go.Scatter(
-            x=node_x, y=node_y,
-            mode='markers',
-            marker=dict(size=18, color=node_color, colorscale='Portland'),
-            hovertext=node_text,
-            hoverinfo='text'
-        )
-
-        fig2 = go.Figure(data=[edge_trace, node_trace],
-                         layout=go.Layout(showlegend=False, height=450, margin=dict(t=20, b=20, l=20, r=20)))
-        st.plotly_chart(fig2, use_container_width=True)
-    else:
-        st.info("No network edges found for current filter set.")
+    st.markdown("""
+    The Atlas visualizes the spatial distribution of motifs.  
+    If latitude/longitude are not yet recorded, data can still be browsed and correlated via other tabs.
+    """)
 
 # ============================================================
 # TAB 2: RESONANCE WHEEL (v3 — safe export + label control)

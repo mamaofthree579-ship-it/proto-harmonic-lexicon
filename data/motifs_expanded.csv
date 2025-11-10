@@ -1,4 +1,4 @@
-id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,date_estimated,shared_concept
+id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,shared_concept
 1,Spiral-Triskelion,Mediterranean,Minoan Crete,3:2,0.86,3400 BCE,Cycle of creation / renewal
 2,Twin Serpents,Mediterranean,Byblos,5:3,0.75,2900 BCE,Energy duality / balance
 3,Water-Seed Glyph,Mediterranean,Malta,2:1,0.88,3100 BCE,Life from hidden waters
@@ -19,3 +19,4 @@ id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,date_
 18,Tri-Spiral Cross,Cross-Cultural,Crete–Tamil Hybrid,3:2,0.92,900 BCE,Shared harmonic cognition
 19,Spiral-Circle Grid,Mediterranean,Egypt Delta,2:1,0.84,2600 BCE,Emergent cosmogenesis
 20,Bindu-Solar Eye,Tamil,Thanjavur Temple,7:4,0.94,700 CE,Central emanation / awareness
+

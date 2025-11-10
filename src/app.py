@@ -269,13 +269,13 @@ with tab2:
         st.caption("Tip: Hide labels for dense selections to avoid overlap.")
     
 # ============================================================
-# TAB 3 (NEW): RESONANCE SPECTRUM TIMELINE
+# TAB 3: RESONANCE SPECTRUM TIMELINE
 # ============================================================
 with tab3:
     st.subheader("Resonance Spectrum Timeline — Harmonic Evolution")
 
-    if 'date_estimated' not in df.columns:
-        st.warning("No chronological data found (missing 'date_estimated' column).")
+    if 'chronology_bce' not in df.columns:
+    st.warning("No chronological data found (missing 'chronology_bce' column).")
     elif filtered.empty:
         st.warning("No motifs available for visualization.")
     else:
@@ -292,7 +292,8 @@ with tab3:
             except:
                 return None
 
-        filtered['year'] = filtered['date_estimated'].apply(parse_date)
+        filtered['year'] = filtered['chronology_bce'].apply(parse_date)
+
         filtered = filtered.dropna(subset=['year'])
 
         if len(filtered) == 0:
@@ -309,7 +310,7 @@ with tab3:
             )
 
             fig4.update_layout(
-                xaxis_title="Approximate Year (BCE → CE)",
+                xaxis_title="Approximate Chronology (BCE scale)",
                 yaxis_title="Harmonic Ratio",
                 height=500,
                 template="plotly_white",
@@ -339,6 +340,44 @@ with tab3:
             • Earlier clusters (left) may indicate origin zones of certain frequency motifs.  
             • Overlaps between regions suggest symbolic diffusion or parallel resonance development.
             """)
-            
+
+# ============================================================
+# TAB 4: MOTIF DETAIL VIEW
+# ============================================================
+with tab3:
+    st.subheader("Motif Detail Viewer")
+
+    if len(filtered) > 0:
+        sel = st.selectbox(
+            "Select motif ID",
+            options=filtered['id'].tolist(),
+            format_func=lambda x: f"{x} - {filtered[filtered['id'] == x]['symbol_name'].values[0]}"
+        )
+
+        row = filtered[filtered['id'] == sel].iloc[0]
+        st.markdown(
+            f"**{row['symbol_name']}**  \n"
+            f"Region: {row['culture_region']}  \n"
+            f"Site: {row['site_name']}  \n"
+            f"Harmonic Ratio: {row['harmonic_ratio']}  \n"
+            f"Cross-Entropy Score: {row['cross_entropy_score']}"
+        )
+
+        if show_images:
+            img_path = os.path.join('data', 'images', os.path.basename(str(row.get('image_path', ''))))
+            if os.path.exists(img_path):
+                try:
+                    svg = open(img_path, 'r', encoding='utf-8').read()
+                    b64 = base64.b64encode(svg.encode('utf-8')).decode('utf-8')
+                    html = f'<img src="data:image/svg+xml;base64,{b64}" ' \
+                           f'style="width:100%;height:auto;border:1px solid #ccc;padding:6px;background:#fff"/>'
+                    st.markdown(html, unsafe_allow_html=True)
+                except Exception as e:
+                    st.warning(f"Unable to render SVG for {img_path}: {e}")
+            else:
+                st.info("No image available for this motif.")
+    else:
+        st.warning("No motifs match the selected filters.")
+        
 st.markdown("---")
 st.caption("© 2025 Proto-Harmonic Lexicon Project — MIT License (software), CC-BY-4.0 (data).")

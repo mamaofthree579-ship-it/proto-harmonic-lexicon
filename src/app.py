@@ -320,7 +320,7 @@ with tab3:
         )
 
         if 'symbol_image_path' in filtered.columns:
-    show_images = st.sidebar.checkbox("Show motif images", value=True)
+        show_images = st.sidebar.checkbox("Show motif images", value=True)
 
     if show_images:
         valid_images = filtered['symbol_image_path'].dropna().unique().tolist()

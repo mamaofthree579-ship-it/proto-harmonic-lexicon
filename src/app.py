@@ -307,7 +307,7 @@ with tab3:
         st.warning("No motifs match the selected filters.")
 
 # ============================================================
-# TAB 4 (NEW): RESONANCE SPECTRUM TIMELINE
+# TAB 3 (NEW): RESONANCE SPECTRUM TIMELINE
 # ============================================================
 with tab3:
     st.subheader("Resonance Spectrum Timeline — Harmonic Evolution")

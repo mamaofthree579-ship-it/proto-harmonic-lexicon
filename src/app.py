@@ -65,9 +65,6 @@ if 'frequency_cluster' in df.columns:
     )
 else:
     st.info("⚙️ Column 'frequency_cluster' not found — skipping this filter for now.")
-
-    )
-
     min_score = st.slider("Min Cross-Entropy Score", 0.0, 1.0, 0.6, 0.01)
     show_images = st.checkbox("Show motif image", value=True)
 

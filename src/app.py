@@ -38,65 +38,36 @@ def load_data(csv_path='data/motifs_expanded.csv', json_path='data/motifs.json')
 
 df, jdata = load_data()
 
-# ----------------------------------------------
-# SIDEBAR FILTERS
-# ----------------------------------------------
-with st.sidebar:
-    st.header("Filter Parameters")
+# =============================================
+# FILTER PARAMETERS
+# =============================================
+st.sidebar.header("Filter Parameters")
 
-    regions = st.multiselect(
-        "Region",
-        options=sorted(df['culture_region'].dropna().unique()),
-        default=sorted(df['culture_region'].dropna().unique())
-    )
+# --- 1️⃣ Region filter ---
+regions = sorted(df['culture_region'].dropna().unique()) if 'culture_region' in df.columns else []
+region_selected = st.sidebar.multiselect("Select Region(s):", regions, default=regions)
 
-    ratios = st.multiselect(
-        "Harmonic Ratios",
-        options=sorted(df['harmonic_ratio'].dropna().unique()),
-        default=sorted(df['harmonic_ratio'].dropna().unique())
-    )
-    
-    frequency_selected = []
+# --- 2️⃣ Harmonic Ratios filter ---
+ratios = sorted(df['harmonic_ratio'].dropna().unique()) if 'harmonic_ratio' in df.columns else []
+ratio_selected = st.sidebar.multiselect("Select Harmonic Ratio(s):", ratios, default=ratios)
+
+# --- 3️⃣ Frequency Cluster filter (safe auto-detect) ---
 if 'frequency_cluster' in df.columns:
-    frequency_selected = st.multiselect(
-        "Frequency Cluster",
-        options=sorted(df['frequency_cluster'].dropna().unique()),
-        default=None
-    )
+    freq_options = sorted(df['frequency_cluster'].dropna().unique())
+    frequency_selected = st.sidebar.multiselect("Frequency Cluster(s):", freq_options, default=freq_options)
 else:
-    st.info("⚙️ Column 'frequency_cluster' not found — skipping this filter for now.")
-    min_score = st.slider("Min Cross-Entropy Score", 0.0, 1.0, 0.6, 0.01)
-    show_images = st.checkbox("Show motif image", value=True)
+    frequency_selected = []  # fallback so downstream filters won't break
+    st.sidebar.info("⚙️ No 'frequency_cluster' column found — skipping this filter.")
 
-    st.markdown("---")
+# --- 4️⃣ Apply filters safely ---
+filtered = df.copy()
 
-    # Safe downloads
-    if os.path.exists('data/motifs_expanded.csv'):
-        st.download_button(
-            "Download CSV",
-            data=open('data/motifs_expanded.csv', 'rb').read(),
-            file_name='motifs_expanded.csv',
-            mime='text/csv'
-        )
-    if os.path.exists('data/motifs.json'):
-        st.download_button(
-            "Download JSON",
-            data=open('data/motifs.json', 'rb').read(),
-            file_name='motifs.json',
-            mime='application/json'
-        )
-
-# ----------------------------------------------
-# FILTER DATA
-# ----------------------------------------------
-filtered = df[
-    (df['culture_region'].isin(regions)) &
-    (df['harmonic_ratio'].isin(ratios)) &
-    (df['frequency_cluster'].isin(clusters)) &
-    (df['cross_entropy_score'] >= min_score)
-]
-
-st.sidebar.markdown(f"**Filtered motifs:** {len(filtered)}")
+if region_selected:
+    filtered = filtered[filtered['culture_region'].isin(region_selected)]
+if ratio_selected:
+    filtered = filtered[filtered['harmonic_ratio'].isin(ratio_selected)]
+if frequency_selected:
+    filtered = filtered[filtered['frequency_cluster'].isin(frequency_selected)]
 
 # ----------------------------------------------
 # MAIN LAYOUT: TABS

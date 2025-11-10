@@ -274,7 +274,7 @@ with tab2:
 with tab3:
     st.subheader("Resonance Spectrum Timeline — Harmonic Evolution")
     if 'chronology_bce' not in df.columns:
-    st.warning("No chronological data found (missing 'chronology_bce' column).")
+     st.warning("No chronological data found (missing 'chronology_bce' column).")
     elif filtered.empty:
         st.warning("No motifs available for visualization.")
     else:

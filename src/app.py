@@ -269,76 +269,119 @@ with tab2:
         st.caption("Tip: Hide labels for dense selections to avoid overlap.")
     
 # ============================================================
-# TAB 3: RESONANCE SPECTRUM TIMELINE
+# TAB 3: RESONANCE SPECTRUM TIMELINE (auto-detects chronology)
 # ============================================================
 with tab3:
     st.subheader("Resonance Spectrum Timeline — Harmonic Evolution")
-    if 'chronology_bce' not in df.columns:
-     st.warning("No chronological data found (missing 'chronology_bce' column).")
-    elif filtered.empty:
-        st.warning("No motifs available for visualization.")
-    else:
-        st.markdown("""
-        This timeline visualizes **when** each harmonic ratio appears in the archaeological
-        or symbolic record, across regions.  
-        Each point = one motif’s resonance frequency through time.
-        """)
 
-        # Normalize or parse estimated dates
-        def parse_date(d):
-            try:
-                return float(str(d).replace("BCE", "").replace("CE", "").strip())
-            except:
+    # --- 1️⃣ Detect available chronology column ---
+    date_columns = [c for c in df.columns if any(k in c.lower() for k in ['chronology', 'date', 'year'])]
+    if not date_columns:
+        st.warning("No chronological or date-like column found. Please include a column such as 'chronology_bce' or 'date_estimated'.")
+    else:
+        chosen_col = date_columns[0]
+        st.caption(f"Using detected column for chronology: `{chosen_col}`")
+
+        if filtered.empty:
+            st.warning("No motifs available for visualization.")
+        else:
+            st.markdown("""
+            This timeline visualizes **when** each harmonic ratio appears in the archaeological
+            or symbolic record, across regions.  
+            Each point = one motif’s resonance frequency through time.
+            """)
+
+            # --- 2️⃣ Parse and normalize date values ---
+            def parse_to_year(value):
+                if value is None:
+                    return None
+                s = str(value).strip()
+                if s == "" or s.lower() in ("nan", "none"):
+                    return None
+                s = s.replace("ca.", "").replace("c.", "").replace("approx", "").replace(",", "").strip()
+
+                # handle ranges (e.g. "3400-3200 BCE")
+                import re
+                m = re.match(r'^(\d{3,4})\s*-\s*(\d{3,4})\s*(bce|ce)?', s, flags=re.I)
+                if m:
+                    num = int(m.group(1))
+                    return -num if (m.group(3) and m.group(3).lower() == "bce") else num
+
+                # BCE / CE
+                m = re.search(r'(\d{2,4})\s*(bce|ce)', s, flags=re.I)
+                if m:
+                    num = int(m.group(1))
+                    return -num if m.group(2).lower() == "bce" else num
+
+                # negative numbers as BCE
+                m = re.match(r'^-(\d{3,4})$', s)
+                if m:
+                    return -int(m.group(1))
+
+                # plain numbers (heuristic)
+                m = re.match(r'^(\d{2,4})$', s)
+                if m:
+                    num = int(m.group(1))
+                    return -num if num >= 1000 else num
+
+                # fallback: find first number
+                m = re.search(r'(\d{2,4})', s)
+                if m:
+                    num = int(m.group(1))
+                    return -num if num >= 1000 else num
                 return None
 
-        filtered['year'] = filtered['chronology_bce'].apply(parse_date)
+            filtered['year'] = filtered[chosen_col].apply(parse_to_year)
+            filtered = filtered.dropna(subset=['year'])
 
-        filtered = filtered.dropna(subset=['year'])
-
-        if len(filtered) == 0:
-            st.info("No valid date data available after parsing.")
-        else:
-            fig4 = px.scatter(
-                filtered.sort_values(by='year'),
-                x='year',
-                y='harmonic_ratio',
-                color='culture_region',
-                size='cross_entropy_score',
-                hover_data=['id', 'symbol_name', 'site_name', 'cross_entropy_score'],
-                title="Temporal Distribution of Harmonic Ratios"
-            )
-
-            fig4.update_layout(
-                xaxis_title="Approximate Chronology (BCE scale)",
-                yaxis_title="Harmonic Ratio",
-                height=500,
-                template="plotly_white",
-                margin=dict(t=40, b=20, l=20, r=20)
-            )
-
-            # Optional smoothing line
-            show_trend = st.checkbox("Show harmonic trend line", value=True)
-            if show_trend:
-                trend = (
-                    filtered.groupby('year')['cross_entropy_score']
-                    .mean()
-                    .reset_index()
-                    .sort_values(by='year')
+            if filtered.empty:
+                st.info("No valid chronological values after parsing.")
+            else:
+                fig4 = px.scatter(
+                    filtered.sort_values(by='year'),
+                    x='year',
+                    y='harmonic_ratio',
+                    color='culture_region',
+                    size='cross_entropy_score',
+                    hover_data=['id', 'symbol_name', 'site_name', 'cross_entropy_score', chosen_col],
+                    title="Temporal Distribution of Harmonic Ratios"
                 )
-                fig4.add_trace(go.Scatter(
-                    x=trend['year'],
-                    y=[f"{r}" for r in trend['cross_entropy_score']],
-                    mode='lines',
-                    name='Avg Cross-Entropy Trend',
-                    line=dict(color='black', dash='dot')
-                ))
 
-            st.plotly_chart(fig4, use_container_width=True)
+                fig4.update_layout(
+                    xaxis_title="Chronology (BCE → CE)",
+                    yaxis_title="Harmonic Ratio",
+                    height=500,
+                    template="plotly_white",
+                    margin=dict(t=40, b=20, l=20, r=20)
+                )
 
-            st.caption("""
-            • Earlier clusters (left) may indicate origin zones of certain frequency motifs.  
-            • Overlaps between regions suggest symbolic diffusion or parallel resonance development.
-            """)
+                # invert x-axis so older BCE dates appear on the left
+                fig4.update_xaxes(autorange="reversed")
+
+                # --- 3️⃣ Optional smoothing trend line ---
+                show_trend = st.checkbox("Show harmonic trend line", value=True)
+                if show_trend:
+                    trend = (
+                        filtered.groupby('year')['cross_entropy_score']
+                        .mean()
+                        .reset_index()
+                        .sort_values(by='year')
+                    )
+                    fig4.add_trace(go.Scatter(
+                        x=trend['year'],
+                        y=[t for t in trend['cross_entropy_score']],
+                        mode='lines',
+                        name='Avg Cross-Entropy Trend',
+                        line=dict(color='black', dash='dot')
+                    ))
+
+                st.plotly_chart(fig4, use_container_width=True)
+
+                st.caption("""
+                • Older (BCE) motifs appear on the left; more recent (CE) motifs on the right.  
+                • Larger dots = stronger symbolic correlation.  
+                • Overlaps between regions suggest diffusion or parallel evolution.
+                """)
 
 # ============================================================
 # TAB 4: MOTIF DETAIL VIEW

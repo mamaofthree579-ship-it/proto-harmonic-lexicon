@@ -98,9 +98,10 @@ st.sidebar.markdown(f"**Filtered motifs:** {len(filtered)}")
 # ----------------------------------------------
 # MAIN LAYOUT: TABS
 # ----------------------------------------------
-tab1, tab2, tab3 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "Atlas View",
     "Resonance Wheel",
+    "Resonance Timeline",
     "Motif Detail"
 ])
 
@@ -305,5 +306,77 @@ with tab3:
     else:
         st.warning("No motifs match the selected filters.")
 
+# ============================================================
+# TAB 4 (NEW): RESONANCE SPECTRUM TIMELINE
+# ============================================================
+with tab3:
+    st.subheader("Resonance Spectrum Timeline — Harmonic Evolution")
+
+    if 'date_estimated' not in df.columns:
+        st.warning("No chronological data found (missing 'date_estimated' column).")
+    elif filtered.empty:
+        st.warning("No motifs available for visualization.")
+    else:
+        st.markdown("""
+        This timeline visualizes **when** each harmonic ratio appears in the archaeological
+        or symbolic record, across regions.  
+        Each point = one motif’s resonance frequency through time.
+        """)
+
+        # Normalize or parse estimated dates
+        def parse_date(d):
+            try:
+                return float(str(d).replace("BCE", "").replace("CE", "").strip())
+            except:
+                return None
+
+        filtered['year'] = filtered['date_estimated'].apply(parse_date)
+        filtered = filtered.dropna(subset=['year'])
+
+        if len(filtered) == 0:
+            st.info("No valid date data available after parsing.")
+        else:
+            fig4 = px.scatter(
+                filtered.sort_values(by='year'),
+                x='year',
+                y='harmonic_ratio',
+                color='culture_region',
+                size='cross_entropy_score',
+                hover_data=['id', 'symbol_name', 'site_name', 'cross_entropy_score'],
+                title="Temporal Distribution of Harmonic Ratios"
+            )
+
+            fig4.update_layout(
+                xaxis_title="Approximate Year (BCE → CE)",
+                yaxis_title="Harmonic Ratio",
+                height=500,
+                template="plotly_white",
+                margin=dict(t=40, b=20, l=20, r=20)
+            )
+
+            # Optional smoothing line
+            show_trend = st.checkbox("Show harmonic trend line", value=True)
+            if show_trend:
+                trend = (
+                    filtered.groupby('year')['cross_entropy_score']
+                    .mean()
+                    .reset_index()
+                    .sort_values(by='year')
+                )
+                fig4.add_trace(go.Scatter(
+                    x=trend['year'],
+                    y=[f"{r}" for r in trend['cross_entropy_score']],
+                    mode='lines',
+                    name='Avg Cross-Entropy Trend',
+                    line=dict(color='black', dash='dot')
+                ))
+
+            st.plotly_chart(fig4, use_container_width=True)
+
+            st.caption("""
+            • Earlier clusters (left) may indicate origin zones of certain frequency motifs.  
+            • Overlaps between regions suggest symbolic diffusion or parallel resonance development.
+            """)
+            
 st.markdown("---")
 st.caption("© 2025 Proto-Harmonic Lexicon Project — MIT License (software), CC-BY-4.0 (data).")

@@ -1,5 +1,5 @@
-id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description,latitude,longitude
-1,Spiral-Triskelion,Mediterranean,Malta-Temples,3:2,0.86,3400 BCE,A-Low,Cycle of creation / renewal,Triple spiral motif symbolizing regenerative cycles in nature.,35.885,14.446
+id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description,latitude,longitude,symbol_image_path
+1,Spiral-Triskelion,Mediterranean,Malta-Temples,3:2,0.86,3400 BCE,A-Low,Cycle of creation / renewal,Triple spiral motif symbolizing regenerative cycles in nature.,35.885,14.446,data/images/M0001.svg
 2,Twin Serpents,Tamil,Vaigai Basin,5:3,0.75,2100 BCE,B-Mid,Energy duality / magnetic balance,Twin serpent forms representing energy polarity and balance.,9.920,78.120
 3,Water-Seed Glyph,Mediterranean,Byblos,2:1,0.88,2800 BCE,A-Low,Life from hidden waters,Wave-line M-shaped motif tied to fertility and water deities.,34.123,35.652
 4,Central Radiant Point,Tamil,Chola Temples,7:4,0.93,1500 BCE,C-High,Source / emanation / consciousness,Bindu-centered kolam pattern denoting origin and emanation.,10.783,79.133
@@ -19,3 +19,4 @@ id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chron
 18,Bindu Radiance,Tamil,Thanjavur,7:4,0.94,1100 BCE,C-High,Source / cosmic emanation,Central dot with radiant extensions in mural design.,10.785,79.137
 19,Helical Cross,Mediterranean,Santorini,5:3,0.81,2400 BCE,B-Mid,Spiral energy / renewal,Interwoven helices forming cross motif.,36.393,25.461
 20,Wave-Ring Spiral,Tamil,Kanyakumari,8:5,0.86,1400 BCE,B-Mid,Confluence / return,Composite spiral ring motif in coastal art.,8.088,77.538
+

@@ -319,21 +319,18 @@ with tab3:
             f"Cross-Entropy Score: {row['cross_entropy_score']}"
         )
 
-        if show_images:
-            img_path = os.path.join('data', 'images', os.path.basename(str(row.get('image_path', ''))))
-            if os.path.exists(img_path):
-                try:
-                    svg = open(img_path, 'r', encoding='utf-8').read()
-                    b64 = base64.b64encode(svg.encode('utf-8')).decode('utf-8')
-                    html = f'<img src="data:image/svg+xml;base64,{b64}" ' \
-                           f'style="width:100%;height:auto;border:1px solid #ccc;padding:6px;background:#fff"/>'
-                    st.markdown(html, unsafe_allow_html=True)
-                except Exception as e:
-                    st.warning(f"Unable to render SVG for {img_path}: {e}")
-            else:
-                st.info("No image available for this motif.")
-    else:
-        st.warning("No motifs match the selected filters.")
+        if 'symbol_image_path' in filtered.columns:
+    show_images = st.sidebar.checkbox("Show motif images", value=True)
+
+    if show_images:
+        valid_images = filtered['symbol_image_path'].dropna().unique().tolist()
+        if len(valid_images) > 0:
+            st.subheader("🖼️ Symbol Motif Gallery")
+            st.image(valid_images, caption=filtered['symbol_name'].tolist(), width=250)
+        else:
+            st.info("No motif images available for current selection.")
+else:
+    st.sidebar.info("🖼️ Image path column not found in dataset.")
         
 st.markdown("---")
 st.caption("© 2025 Proto-Harmonic Lexicon Project — MIT License (software), CC-BY-4.0 (data).")

@@ -10,14 +10,20 @@ st.set_page_config(layout='wide', page_title='Proto-Harmonic Lexicon Atlas', ini
 @st.cache_data
 def load_data(csv_path='data/motifs_expanded.csv', json_path='data/motifs.json'):
     df = pd.read_csv(csv_path)
-    try:
-        with open(json_path, 'r', encoding='utf-8') as f:
-            j = json.load(f)
-    except Exception:
-        j = None
+    j = None
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                j = json.load(f)
+        except Exception:
+            j = None
+    else:
+        # Auto-generate JSON if missing
+        j = df.to_dict(orient='records')
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(j, f, ensure_ascii=False, indent=2)
     return df, j
-
-df, jdata = load_data()
 
 st.title('Proto-Shared Harmonic Lexicon — Atlas (Streamlit Prototype)')
 st.markdown('A scholarly interface for exploring attested motif harmonics across Mediterranean and Tamil/Indus corpora.')

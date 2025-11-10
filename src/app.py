@@ -54,13 +54,18 @@ if cluster_filter:
     filtered = filtered[filtered['frequency_cluster'].isin(cluster_filter)]
 
 # --- Tabs Layout ---
-tab1, tab2, tab3 = st.tabs(["📜 Data Overview", "🗺️ Atlas Map", "🌀 Harmonic Wheel"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "📜 Data Overview",
+    "🗺️ Atlas Map",
+    "🌀 Harmonic Wheel",
+    "⏳ Chronological Timeline"
+])
 
 # --- Tab 1: Data Overview ---
 with tab1:
     st.subheader("📖 Motif Dataset Overview")
     st.dataframe(filtered, use_container_width=True)
-    
+
     st.download_button(
         "⬇️ Download Filtered Data as CSV",
         filtered.to_csv(index=False).encode('utf-8'),
@@ -122,6 +127,44 @@ with tab3:
     else:
         st.warning("Insufficient data to generate harmonic wheel.")
 
+# --- Tab 4: Chronological Timeline ---
+with tab4:
+    st.subheader("⏳ Motif Chronology (BCE)")
+
+    if 'chronology_bce' in filtered.columns and not filtered.empty:
+        df_timeline = filtered.copy()
+
+        # Extract numeric values from "3400 BCE" etc.
+        df_timeline['chronology_bce_numeric'] = (
+            df_timeline['chronology_bce']
+            .astype(str)
+            .str.extract(r'(\d+)')
+            .astype(float)
+        )
+        df_timeline.dropna(subset=['chronology_bce_numeric'], inplace=True)
+
+        if not df_timeline.empty:
+            fig_time = px.scatter(
+                df_timeline.sort_values('chronology_bce_numeric', ascending=False),
+                x='chronology_bce_numeric',
+                y='symbol_name',
+                color='culture_region',
+                size='cross_entropy_score',
+                hover_data=['harmonic_ratio', 'probable_concept', 'site_name'],
+                color_discrete_sequence=px.colors.qualitative.Set2
+            )
+            fig_time.update_layout(
+                xaxis_title="Approximate Date (BCE → CE)",
+                yaxis_title="Motif Name",
+                xaxis_autorange="reversed",
+                showlegend=True
+            )
+            st.plotly_chart(fig_time, use_container_width=True)
+        else:
+            st.warning("No valid chronological data found.")
+    else:
+        st.error("Chronology column missing from dataset.")
+
 # --- Footer ---
 st.markdown("---")
-st.caption("Developed as part of the Proto-Harmonic Lexicon Open Project (c) 2025.")
+st.caption("Developed as part of the Proto-Harmonic Lexicon Open Project © 2025.")

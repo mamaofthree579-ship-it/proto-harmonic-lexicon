@@ -187,7 +187,7 @@ with tab1:
         st.info("No network edges found for current filter set.")
 
 # ============================================================
-# TAB 2: RESONANCE WHEEL
+# TAB 2: RESONANCE WHEEL (v2 with export + label control)
 # ============================================================
 with tab2:
     st.subheader("Resonance Wheel — Harmonic Frequency Map")
@@ -204,6 +204,11 @@ with tab2:
         filtered['angle'] = filtered['harmonic_ratio'].apply(ratio_to_angle)
         filtered['radius'] = filtered['cross_entropy_score'] * 2 + 1
 
+        # Label visibility control
+        show_labels = st.checkbox("Show motif labels", value=False)
+        point_size = st.slider("Point size", 5, 25, 12)
+        opacity = st.slider("Point opacity", 0.3, 1.0, 0.8)
+
         fig3 = go.Figure()
 
         for region in filtered['culture_region'].unique():
@@ -211,11 +216,11 @@ with tab2:
             fig3.add_trace(go.Scatterpolar(
                 r=sub['radius'],
                 theta=sub['angle'],
-                mode='markers+text',
-                text=sub['symbol_name'],
+                mode='markers+text' if show_labels else 'markers',
+                text=sub['symbol_name'] if show_labels else None,
                 textposition='top center',
                 name=region,
-                marker=dict(size=10, symbol='circle')
+                marker=dict(size=point_size, opacity=opacity, symbol='circle')
             ))
 
         fig3.update_layout(
@@ -224,11 +229,32 @@ with tab2:
                 angularaxis=dict(direction='clockwise')
             ),
             showlegend=True,
+            template="plotly_white",
             height=600,
             margin=dict(t=30, b=30, l=10, r=10)
         )
 
         st.plotly_chart(fig3, use_container_width=True)
+
+        # Export section
+        st.markdown("#### Export Resonance Wheel")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.download_button(
+                label="Download as SVG",
+                data=fig3.to_image(format="svg"),
+                file_name="resonance_wheel.svg",
+                mime="image/svg+xml"
+            )
+        with col2:
+            st.download_button(
+                label="Download as PNG",
+                data=fig3.to_image(format="png"),
+                file_name="resonance_wheel.png",
+                mime="image/png"
+            )
+
+        st.caption("Tip: Hide labels for dense selections to avoid overlap.")
     else:
         st.warning("No motifs to visualize. Adjust filters.")
 

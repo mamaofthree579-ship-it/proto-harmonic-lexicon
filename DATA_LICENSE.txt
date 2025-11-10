@@ -1,0 +1,4 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+This dataset (data/motifs_expanded.csv and derived files) is released under CC-BY-4.0.
+You are free to share and adapt the data provided you give appropriate credit.

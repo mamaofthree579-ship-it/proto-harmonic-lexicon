@@ -266,9 +266,7 @@ with tab2:
 
 
         st.caption("Tip: Hide labels for dense selections to avoid overlap.")
-    else:
-        st.warning("No motifs to visualize. Adjust filters.")
-
+    
 # ============================================================
 # TAB 3: MOTIF DETAIL VIEW
 # ============================================================

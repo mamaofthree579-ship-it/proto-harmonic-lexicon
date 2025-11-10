@@ -90,7 +90,7 @@ with tab1:
     if 'latitude' in filtered.columns and 'longitude' in filtered.columns:
         coords = filtered[['latitude', 'longitude']].dropna()
         if coords.shape[0] > 0:
-            st.map(filtered, latitude='latitude', longitude='longitude')
+            st.map(filtered, latitude='latitude', longitude='longitude', size=5, color="#ffaa00")
         else:
             st.info("🗺️ No coordinate data available to map.")
     else:

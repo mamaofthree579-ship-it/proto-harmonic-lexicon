@@ -1,21 +1,21 @@
-id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description
-1,Spiral-Triskelion,Mediterranean,Malta-Temples,3:2,0.86,3400 BCE,A-Low,Cycle of creation / renewal,Triple spiral motif symbolizing regenerative cycles in nature.
-2,Twin Serpents,Tamil,Vaigai Basin,5:3,0.75,2100 BCE,B-Mid,Energy duality / magnetic balance,Twin serpent forms representing energy polarity and balance.
-3,Water-Seed Glyph,Mediterranean,Byblos,2:1,0.88,2800 BCE,A-Low,Life from hidden waters,Wave-line M-shaped motif tied to fertility and water deities.
-4,Central Radiant Point,Tamil,Chola Temples,7:4,0.93,1500 BCE,C-High,Source / emanation / consciousness,Bindu-centered kolam pattern denoting origin and emanation.
-5,Lotus Spiral,Tamil,Madurai,8:5,0.81,1600 BCE,B-Mid,Unfolding consciousness,Symmetric floral spiral echoing Fibonacci resonance.
-6,Helix Seal,Mediterranean,Crete,5:4,0.78,2600 BCE,B-Mid,Cosmic rotation / DNA memory,Helical glyph suggesting dynamic solar currents.
-7,Tri-Disc Sun,Mediterranean,Knossos,3:2,0.82,2300 BCE,A-Low,Sun / planetary triad,Three concentric discs found on solar altars.
-8,Wave-Ring Cross,Tamil,Rameswaram,9:8,0.72,1900 BCE,C-High,Harmonic crossing / confluence,Crossed wave rings used in floor geometry for ritual balance.
-9,Seed Eye,Mediterranean,Malta Hypogeum,4:3,0.84,3100 BCE,B-Mid,Inner vision / germination,Eye-within-seed motif carved into limestone.
-10,Serpent Coil,Tamil,Sangam Port,5:2,0.91,1700 BCE,C-High,Dynamic kundalini flow,Double-coil structure matching naga iconography.
-11,Wave-Line Chain,Mediterranean,Byblos,2:1,0.83,2900 BCE,A-Low,Continuity / fluidity,Linked wave bands carved on ceremonial bowls.
-12,Flower-Mandala,Tamil,Kanchipuram,6:5,0.87,1200 BCE,B-Mid,Order / sacred geometry,Radial lotus diagrams mapped to cosmology.
-13,Four-Spoked Wheel,Mediterranean,Cyprus,4:3,0.76,2200 BCE,B-Mid,Directional order / solar rhythm,Symbol aligning cardinal directions.
-14,Diamond Grid,Tamil,Tirunelveli,7:5,0.89,900 BCE,C-High,Interlink / weave of existence,Geometric grid patterns in temple kolam.
-15,Wave-Disc Fusion,Mediterranean,Crete,9:7,0.77,2000 BCE,C-High,Water-sun union,Interlaced spiral-disc motifs.
-16,Seed Spiral,Tamil,Adichanallur,3:2,0.79,2500 BCE,A-Low,Birth / regeneration,Incised ceramic motif linking spiral and germination.
-17,Tri-Column Glyph,Mediterranean,Byblos,3:2,0.83,2700 BCE,A-Low,Stability / tripartite order,Three-rod symbols on early inscriptions.
-18,Bindu Radiance,Tamil,Thanjavur,7:4,0.94,1100 BCE,C-High,Source / cosmic emanation,Central dot with radiant extensions in mural design.
-19,Helical Cross,Mediterranean,Santorini,5:3,0.81,2400 BCE,B-Mid,Spiral energy / renewal,Interwoven helices forming cross motif.
-20,Wave-Ring Spiral,Tamil,Kanyakumari,8:5,0.86,1400 BCE,B-Mid,Confluence / return,Composite spiral ring motif in coastal art.
+id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description,latitude,longitude
+1,Spiral-Triskelion,Mediterranean,Malta-Temples,3:2,0.86,3400 BCE,A-Low,Cycle of creation / renewal,Triple spiral motif symbolizing regenerative cycles in nature.,35.885,14.446
+2,Twin Serpents,Tamil,Vaigai Basin,5:3,0.75,2100 BCE,B-Mid,Energy duality / magnetic balance,Twin serpent forms representing energy polarity and balance.,9.920,78.120
+3,Water-Seed Glyph,Mediterranean,Byblos,2:1,0.88,2800 BCE,A-Low,Life from hidden waters,Wave-line M-shaped motif tied to fertility and water deities.,34.123,35.652
+4,Central Radiant Point,Tamil,Chola Temples,7:4,0.93,1500 BCE,C-High,Source / emanation / consciousness,Bindu-centered kolam pattern denoting origin and emanation.,10.783,79.133
+5,Lotus Spiral,Tamil,Madurai,8:5,0.81,1600 BCE,B-Mid,Unfolding consciousness,Symmetric floral spiral echoing Fibonacci resonance.,9.925,78.120
+6,Helix Seal,Mediterranean,Crete,5:4,0.78,2600 BCE,B-Mid,Cosmic rotation / DNA memory,Helical glyph suggesting dynamic solar currents.,35.240,24.809
+7,Tri-Disc Sun,Mediterranean,Knossos,3:2,0.82,2300 BCE,A-Low,Sun / planetary triad,Three concentric discs found on solar altars.,35.294,25.162
+8,Wave-Ring Cross,Tamil,Rameswaram,9:8,0.72,1900 BCE,C-High,Harmonic crossing / confluence,Crossed wave rings used in floor geometry for ritual balance.,9.288,79.312
+9,Seed Eye,Mediterranean,Malta Hypogeum,4:3,0.84,3100 BCE,B-Mid,Inner vision / germination,Eye-within-seed motif carved into limestone.,35.834,14.457
+10,Serpent Coil,Tamil,Sangam Port,5:2,0.91,1700 BCE,C-High,Dynamic kundalini flow,Double-coil structure matching naga iconography.,8.715,78.150
+11,Wave-Line Chain,Mediterranean,Byblos,2:1,0.83,2900 BCE,A-Low,Continuity / fluidity,Linked wave bands carved on ceremonial bowls.,34.123,35.652
+12,Flower-Mandala,Tamil,Kanchipuram,6:5,0.87,1200 BCE,B-Mid,Order / sacred geometry,Radial lotus diagrams mapped to cosmology.,12.835,79.700
+13,Four-Spoked Wheel,Mediterranean,Cyprus,4:3,0.76,2200 BCE,B-Mid,Directional order / solar rhythm,Symbol aligning cardinal directions.,35.126,33.429
+14,Diamond Grid,Tamil,Tirunelveli,7:5,0.89,900 BCE,C-High,Interlink / weave of existence,Geometric grid patterns in temple kolam.,8.727,77.703
+15,Wave-Disc Fusion,Mediterranean,Crete,9:7,0.77,2000 BCE,C-High,Water-sun union,Interlaced spiral-disc motifs.,35.240,24.809
+16,Seed Spiral,Tamil,Adichanallur,3:2,0.79,2500 BCE,A-Low,Birth / regeneration,Incised ceramic motif linking spiral and germination.,8.733,77.717
+17,Tri-Column Glyph,Mediterranean,Byblos,3:2,0.83,2700 BCE,A-Low,Stability / tripartite order,Three-rod symbols on early inscriptions.,34.123,35.652
+18,Bindu Radiance,Tamil,Thanjavur,7:4,0.94,1100 BCE,C-High,Source / cosmic emanation,Central dot with radiant extensions in mural design.,10.785,79.137
+19,Helical Cross,Mediterranean,Santorini,5:3,0.81,2400 BCE,B-Mid,Spiral energy / renewal,Interwoven helices forming cross motif.,36.393,25.461
+20,Wave-Ring Spiral,Tamil,Kanyakumari,8:5,0.86,1400 BCE,B-Mid,Confluence / return,Composite spiral ring motif in coastal art.,8.088,77.538

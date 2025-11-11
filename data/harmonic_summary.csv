@@ -1,0 +1,8 @@
+culture_region,count,dominant_ratio,mean_cross_entropy_score,mean_chronology_bce
+Mediterranean,10,3:2,0.86,3200
+Tamil,10,5:3,0.88,3000
+Egypt,12,5:4,0.85,2500
+Mesopotamia,9,4:3,0.83,2600
+Levant,9,5:4,0.84,2000
+Indo-Pacific,10,3:2,0.86,1200
+Andean,10,5:3,0.88,1000

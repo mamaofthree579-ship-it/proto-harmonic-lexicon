@@ -54,7 +54,7 @@ else:
     filtered = pd.DataFrame()
 
 # --- Tabs ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "📜 Overview",
     "📈 Correlation Map",
     "🌀 Symbol Timeline",
@@ -232,41 +232,45 @@ with tab7:
     else:
         st.warning("Dataset or summary data not loaded.")
 
-# --- Tab 8: Triadic Viewer ---
+# --- Tab 8: Triadic Symbol Viewer ---
 tab8 = st.tabs(["🔺 Triadic Symbol Viewer"])[0]
 
 with tab8:
-    st.subheader("🔺 Triadic Symbol Viewer")
+    st.subheader("🔺 Proto-Harmonic Triadic Symbol Viewer")
     st.markdown("""
-    This panel displays the three core harmonic motifs forming the proto-symbolic triad:
+    Explore the **three foundational glyphs** of the Proto-Harmonic Lexicon, each encoding a key resonance in pre-linguistic symbolism:
     **Creation → Duality → Life-from-Water**.
     """)
 
-    # Define motif metadata
     motifs = [
         {
             "name": "Spiral-Triskelion",
             "ratio": "3:2",
             "concept": "Cycle of Creation / Renewal",
+            "region": "Minoan / Maltese ↔ Indus / Kolam",
+            "symbolism": "Represents self-renewing cosmic flow and cyclical genesis patterns.",
             "path": "data/images/M0001.svg"
         },
         {
             "name": "Twin Serpents",
             "ratio": "5:3",
             "concept": "Energy Duality / Magnetic Balance",
-            "path": "data/images/IMG0002.png"
+            "region": "Byblos / Phoenician ↔ Tamil / Naga",
+            "symbolism": "Encodes dynamic polarity and intertwining life currents — the primordial field.",
+            "path": "data/images/M0002.svg"
         },
         {
             "name": "Water-Seed Glyph",
             "ratio": "2:1",
             "concept": "Life from the Hidden Waters",
-            "path": "data/images/IMG0003.png"
+            "region": "Proto-Phoenician ‘M’ wave ↔ Tamil ‘Marai’ (sea, hidden)",
+            "symbolism": "Signifies emergence of life from cosmic depth — fertility, memory, and renewal.",
+            "path": "data/images/M0003.svg"
         },
     ]
 
-    # Display side-by-side
+    # Create 3 columns for the visual panels
     col1, col2, col3 = st.columns(3)
-
     for col, motif in zip([col1, col2, col3], motifs):
         with col:
             if os.path.exists(motif["path"]):
@@ -276,4 +280,25 @@ with tab8:
 
             st.markdown(f"**{motif['name']}**")
             st.caption(f"Harmonic Ratio: {motif['ratio']}  \nConcept: {motif['concept']}")
-            
+
+    # Divider
+    st.divider()
+
+    st.subheader("🔍 Expanded Symbolic Details")
+    st.markdown("Click each motif below to reveal its symbolic, harmonic, and regional alignments:")
+
+    for motif in motifs:
+        with st.expander(f"🔸 {motif['name']} — {motif['concept']} ({motif['ratio']})"):
+            if os.path.exists(motif["path"]):
+                st.image(motif["path"], width=200)
+            st.markdown(f"""
+            **Region:** {motif['region']}  
+            **Harmonic Ratio:** {motif['ratio']}  
+            **Core Concept:** {motif['concept']}  
+
+            **Symbolic Interpretation:**  
+            {motif['symbolism']}
+
+            **Harmonic Visualization:**  
+            The {motif['ratio']} ratio represents a geometric resonance commonly expressed in sacred geometry and musical intervals, linking pattern cognition across early cultures.
+            """)

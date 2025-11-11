@@ -5,6 +5,20 @@ import plotly.express as px
 import numpy as np
 import io
 
+# --- Load Data ---
+DATA_PATH = "data/motifs_expanded.csv"
+
+@st.cache_data
+def load_data():
+    try:
+        df = pd.read_csv(DATA_PATH)
+        return df
+    except Exception as e:
+        st.error(f"Error loading dataset: {e}")
+        return pd.DataFrame()
+
+df = load_data()
+
 # --- Harmonic Ratio Wheel Utility ---
 import matplotlib
 matplotlib.use("Agg")  # headless mode for Streamlit
@@ -61,20 +75,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# --- Load Data ---
-DATA_PATH = "data/motifs_expanded.csv"
-
-@st.cache_data
-def load_data():
-    try:
-        df = pd.read_csv(DATA_PATH)
-        return df
-    except Exception as e:
-        st.error(f"Error loading dataset: {e}")
-        return pd.DataFrame()
-
-df = load_data()
 
 # --- Build summary dataset for dashboard ---
 if not df.empty:

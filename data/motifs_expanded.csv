@@ -1,7 +1,7 @@
 I'mid,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description,latitude,longitude,symbol_image_path
 1,Spiral-Triskelion,Mediterranean,Malta-Temples,3:2,0.86,3400 BCE,A-Low,Cycle of creation / renewal,Triple spiral motif symbolizing regenerative cycles in nature.,35.885,14.446,data/images/M0001.svg
 2,Twin Serpents,Tamil,Vaigai Basin,5:3,0.75,2100 BCE,B-Mid,Energy duality / magnetic balance,Twin serpent forms representing energy polarity and balance.,9.920,78.120,
-3,Water-Seed Glyph,Mediterranean,Byblos,2:1,0.88,2800 BCE,A-Low,Life from hidden waters,Wave-line M-shaped motif tied to fertility and water deities.,34.123,35.652,
+3,Water-Seed Glyph,Mediterranean,Byblos,2:1,0.88,2800 BCE,A-Low,Life from hidden waters,Wave-line M-shaped motif tied to fertility and water deities.,34.123,35.652,data/images/IMG0003.png
 4,Central Radiant Point,Tamil,Chola Temples,7:4,0.93,1500 BCE,C-High,Source / emanation / consciousness,Bindu-centered kolam pattern denoting origin and emanation.,10.783,79.133,
 5,Lotus Spiral,Tamil,Madurai,8:5,0.81,1600 BCE,B-Mid,Unfolding consciousness,Symmetric floral spiral echoing Fibonacci resonance.,9.925,78.120,
 6,Helix Seal,Mediterranean,Crete,5:4,0.78,2600 BCE,B-Mid,Cosmic rotation / DNA memory,Helical glyph suggesting dynamic solar currents.,35.240,24.809,
@@ -69,3 +69,4 @@ I'mid,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,ch
 68,Sun-Serpent Ring,Andean,Chavin,3:2,0.87,800 BCE,B-Mid,Resonant light / wisdom,Serpent ring enclosing radiant disc.,-9.590,-77.170,
 69,Wave-Dot Pattern,Indo-Pacific,Vietnam,8:5,0.84,1200 BCE,A-Low,Rhythm / rainfall,Wavy lines punctuated by equidistant dots.,14.058,108.277,
 70,Stellar Spiral,Andean,Chile,7:5,0.89,700 BCE,C-High,Stars / cycles / guidance,Spiral petroglyph aligned with southern sky arcs.,-23.650,-70.400,
+

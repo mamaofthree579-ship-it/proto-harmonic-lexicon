@@ -4,9 +4,6 @@ import streamlit as st
 import plotly.express as px
 import numpy as np
 import io
-import matplotlib
-matplotlib.use("Agg")       # ensure non-interactive backend
-import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title="Proto-Harmonic Lexicon Explorer",

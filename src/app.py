@@ -76,13 +76,14 @@ if cluster_filter:
     filtered = filtered[filtered['frequency_cluster'].isin(cluster_filter)]
 
 # --- Tabs Layout ---
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "📜 Data Overview",
     "🗺️ Atlas Map",
     "🌀 Harmonic Wheel",
     "⏳ Chronological Timeline",
     "🎶 Frequency Geometry Visualizer"
     "📊 Harmonic Correlation Table"
+    "🧭 Harmonic Dashboard"
 ])
 
 # --- Tab 1: Data Overview ---
@@ -323,6 +324,77 @@ with tab6:
         st.caption("Regions cluster near similar harmonic intensities, reinforcing cross-cultural resonance patterns.")
     else:
         st.warning("Summary data not available. Ensure motifs_expanded.csv is loaded correctly.")
+ # --- Tab 7: Harmonic Dashboard ---
+tab7 = st.tabs(["🧭 Harmonic Dashboard"])[0]
+
+with tab7:
+    st.subheader("🧭 Integrated Harmonic Dashboard")
+
+    if not df.empty:
+        col1, col2 = st.columns((2, 2))
+        # ----- Map -----
+        with col1:
+            st.markdown("### 🌍 Cultural Distribution Map")
+            if 'latitude' in df.columns and 'longitude' in df.columns:
+                valid_geo = df.dropna(subset=['latitude', 'longitude'])
+                if not valid_geo.empty:
+                    st.map(valid_geo, latitude='latitude', longitude='longitude', size=5, color="#ffaa00")
+                else:
+                    st.info("No geospatial data available.")
+            else:
+                st.info("Latitude/longitude columns missing.")
+
+        # ----- Summary Bar -----
+        with col2:
+            st.markdown("### 🔆 Mean Symbolic Intensity by Region")
+            if 'mean_cross_entropy_score' in summary_df.columns:
+                fig_bar = px.bar(
+                    summary_df,
+                    x="culture_region",
+                    y="mean_cross_entropy_score",
+                    color="dominant_ratio",
+                    color_discrete_sequence=px.colors.qualitative.Vivid,
+                    text="dominant_ratio",
+                    title="Regional Harmonic Profile"
+                )
+                fig_bar.update_traces(textposition="outside")
+                st.plotly_chart(fig_bar, use_container_width=True)
+            else:
+                st.info("Summary data not yet built.")
+
+        # ----- Timeline / Evolution -----
+        st.markdown("### ⏳ Frequency Evolution Overview")
+
+        def ratio_to_float(r):
+            try:
+                a, b = r.split(':')
+                return float(a) / float(b)
+            except Exception:
+                return None
+
+        df['ratio_value'] = df['harmonic_ratio'].apply(ratio_to_float)
+        valid = df.dropna(subset=['ratio_value', 'chronology_bce'])
+        if not valid.empty:
+            fig_timeline = px.scatter(
+                valid,
+                x='chronology_bce',
+                y='ratio_value',
+                color='culture_region',
+                size='cross_entropy_score',
+                hover_name='symbol_name',
+                color_discrete_sequence=px.colors.qualitative.Set2,
+                title="Timeline of Harmonic Ratios (4000–700 BCE)"
+            )
+            fig_timeline.update_traces(mode="markers+lines")
+            fig_timeline.update_xaxes(autorange="reversed", title="Chronology (BCE)")
+            fig_timeline.update_yaxes(title="Harmonic Ratio Value")
+            st.plotly_chart(fig_timeline, use_container_width=True)
+        else:
+            st.info("Not enough ratio data for timeline display.")
+
+        st.caption("The dashboard unites spatial, temporal, and harmonic data to reveal shared geometric cognition across early civilizations.")
+    else:
+        st.warning("Dataset not loaded.")
         
 # --- Footer ---
 st.markdown("---")

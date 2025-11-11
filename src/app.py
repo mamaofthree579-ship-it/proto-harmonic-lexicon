@@ -2,6 +2,9 @@ import os
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import matplotlib.pyplot as plt
+import numpy as np
+import io
 
 st.set_page_config(
     page_title="Proto-Harmonic Lexicon Explorer",
@@ -235,6 +238,44 @@ with tab7:
 # --- Tab 8: Triadic Symbol Viewer ---
 tab8 = st.tabs(["🔺 Triadic Symbol Viewer"])[0]
 
+def draw_ratio_wheel(ratio_text):
+    """Draws a simple harmonic ratio wheel (e.g., 3:2) and returns as image bytes."""
+    try:
+        a, b = map(float, ratio_text.split(":"))
+    except Exception:
+        a, b = 1, 1
+
+    fig, ax = plt.subplots(figsize=(2, 2))
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+    # Circle
+    theta = np.linspace(0, 2 * np.pi, 400)
+    ax.plot(np.cos(theta), np.sin(theta), color="black", linewidth=1.5)
+
+    # Divide circle according to ratio
+    total = a + b
+    angle_a = 2 * np.pi * (a / total)
+    angle_b = 2 * np.pi * (b / total)
+
+    # Draw ratio sectors
+    ax.fill_between(np.cos(np.linspace(0, angle_a, 200)),
+                    np.sin(np.linspace(0, angle_a, 200)),
+                    color="black", alpha=0.2)
+    ax.fill_between(np.cos(np.linspace(angle_a, angle_a + angle_b, 200)),
+                    np.sin(np.linspace(angle_a, angle_a + angle_b, 200)),
+                    color="gray", alpha=0.2)
+
+    # Text labels
+    ax.text(0, 0, f"{int(a)}:{int(b)}", fontsize=10, ha="center", va="center")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
+    plt.close(fig)
+    buf.seek(0)
+    return buf
+
+
 with tab8:
     st.subheader("🔺 Proto-Harmonic Triadic Symbol Viewer")
     st.markdown("""
@@ -269,7 +310,7 @@ with tab8:
         },
     ]
 
-    # Create 3 columns for the visual panels
+    # --- Top row: 3-panel image layout ---
     col1, col2, col3 = st.columns(3)
     for col, motif in zip([col1, col2, col3], motifs):
         with col:
@@ -281,24 +322,37 @@ with tab8:
             st.markdown(f"**{motif['name']}**")
             st.caption(f"Harmonic Ratio: {motif['ratio']}  \nConcept: {motif['concept']}")
 
-    # Divider
     st.divider()
 
+    # --- Expanders with ratio wheels ---
     st.subheader("🔍 Expanded Symbolic Details")
-    st.markdown("Click each motif below to reveal its symbolic, harmonic, and regional alignments:")
+    st.markdown("Click each motif below to reveal its harmonic structure and cosmological context:")
 
     for motif in motifs:
         with st.expander(f"🔸 {motif['name']} — {motif['concept']} ({motif['ratio']})"):
-            if os.path.exists(motif["path"]):
-                st.image(motif["path"], width=200)
-            st.markdown(f"""
-            **Region:** {motif['region']}  
-            **Harmonic Ratio:** {motif['ratio']}  
-            **Core Concept:** {motif['concept']}  
+            col_img, col_meta = st.columns([1, 2])
 
-            **Symbolic Interpretation:**  
-            {motif['symbolism']}
+            with col_img:
+                if os.path.exists(motif["path"]):
+                    st.image(motif["path"], width=180)
+                # Draw the harmonic wheel dynamically
+                wheel = draw_ratio_wheel(motif["ratio"])
+                st.image(wheel, caption=f"Harmonic Ratio {motif['ratio']}", width=160)
 
-            **Harmonic Visualization:**  
-            The {motif['ratio']} ratio represents a geometric resonance commonly expressed in sacred geometry and musical intervals, linking pattern cognition across early cultures.
-            """)
+            with col_meta:
+                st.markdown(f"""
+                **Region:** {motif['region']}  
+                **Harmonic Ratio:** {motif['ratio']}  
+                **Core Concept:** {motif['concept']}  
+
+                **Symbolic Interpretation:**  
+                {motif['symbolism']}
+                """)
+
+                st.markdown("""
+                **Harmonic Insight:**  
+                The ratio wheel illustrates proportional resonance.  
+                - **3:2** evokes musical fifths — balance between motion and order.  
+                - **5:3** suggests golden-section dynamics — polarity within unity.  
+                - **2:1** reflects octave doubling — creation through renewal.
+                """)

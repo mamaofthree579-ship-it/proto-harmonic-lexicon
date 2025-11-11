@@ -54,14 +54,15 @@ else:
     filtered = pd.DataFrame()
 
 # --- Tabs ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "📜 Overview",
     "📈 Correlation Map",
     "🌀 Symbol Timeline",
     "📚 Lexicon Table",
     "🖼️ Symbol Gallery",
     "🔍 Motif Insights",
-    "🧭 Harmonic Dashboard"
+    "🧭 Harmonic Dashboard",
+    "🔺 Triadic Symbol Viewer"
 ])
 
 # --- Tab 1: Overview ---
@@ -230,3 +231,49 @@ with tab7:
         st.caption("The dashboard unites spatial, temporal, and harmonic data to reveal shared geometric cognition across early civilizations.")
     else:
         st.warning("Dataset or summary data not loaded.")
+
+# --- Tab 8: Triadic Viewer ---
+tab8 = st.tabs(["🔺 Triadic Symbol Viewer"])[0]
+
+with tab8:
+    st.subheader("🔺 Triadic Symbol Viewer")
+    st.markdown("""
+    This panel displays the three core harmonic motifs forming the proto-symbolic triad:
+    **Creation → Duality → Life-from-Water**.
+    """)
+
+    # Define motif metadata
+    motifs = [
+        {
+            "name": "Spiral-Triskelion",
+            "ratio": "3:2",
+            "concept": "Cycle of Creation / Renewal",
+            "path": "data/images/M0001.svg"
+        },
+        {
+            "name": "Twin Serpents",
+            "ratio": "5:3",
+            "concept": "Energy Duality / Magnetic Balance",
+            "path": "data/images/IMG0002.png"
+        },
+        {
+            "name": "Water-Seed Glyph",
+            "ratio": "2:1",
+            "concept": "Life from the Hidden Waters",
+            "path": "data/images/IMG0003.png"
+        },
+    ]
+
+    # Display side-by-side
+    col1, col2, col3 = st.columns(3)
+
+    for col, motif in zip([col1, col2, col3], motifs):
+        with col:
+            if os.path.exists(motif["path"]):
+                st.image(motif["path"], use_container_width=True)
+            else:
+                st.warning(f"Image not found: {motif['path']}")
+
+            st.markdown(f"**{motif['name']}**")
+            st.caption(f"Harmonic Ratio: {motif['ratio']}  \nConcept: {motif['concept']}")
+            

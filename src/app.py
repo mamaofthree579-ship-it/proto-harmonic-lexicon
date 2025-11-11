@@ -127,7 +127,7 @@ with tab5:
         show_images = st.sidebar.checkbox("Show motif images", value=True)
         if show_images:
             valid_images = filtered["symbol_image_path"].dropna().unique().tolist()
-            if len(valid_images) > 0:
+        if len(valid_images) > 0:
     # Filter only rows that have valid image paths
     gallery_df = filtered.dropna(subset=["symbol_image_path"])
     gallery_df = gallery_df[gallery_df["symbol_image_path"].isin(valid_images)]

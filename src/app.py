@@ -298,6 +298,30 @@ with tab5:
         st.caption("Ratios trend toward convergence around 3:2 and 5:3 across eras, suggesting cognitive harmonic continuity.")
     else:
         st.warning("Frequency or chronological data missing — unable to plot frequency evolution.")
+# --- Tab 6: Harmonic Correlation Table ---
+tab6 = st.tabs(["📊 Harmonic Correlation Table"])[0]
+
+with tab6:
+    st.subheader("📊 Comparative Harmonic Summary by Region")
+
+    if not summary_df.empty:
+        st.dataframe(summary_df, use_container_width=True)
+
+        fig_summary = px.bar(
+            summary_df,
+            x="culture_region",
+            y="mean_cross_entropy_score",
+            color="dominant_ratio",
+            text="mean_cross_entropy_score",
+            color_discrete_sequence=px.colors.qualitative.Pastel,
+            title="Average Symbolic Intensity per Culture"
+        )
+        fig_summary.update_traces(textposition="outside")
+        st.plotly_chart(fig_summary, use_container_width=True)
+
+        st.caption("Regions cluster near similar harmonic intensities, reinforcing cross-cultural resonance patterns.")
+    else:
+        st.warning("Summary data not available. Ensure motifs_expanded.csv is loaded correctly.")
         
 # --- Footer ---
 st.markdown("---")

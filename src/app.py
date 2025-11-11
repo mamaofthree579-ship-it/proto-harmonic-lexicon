@@ -16,6 +16,18 @@ def load_data():
         return pd.DataFrame()
     df = pd.read_csv(file_path)
     return df
+# --- Build summary dataset for dashboard ---
+if not df.empty:
+    summary_df = (
+        df.groupby("culture_region")
+        .agg(
+            mean_cross_entropy_score=("cross_entropy_score", "mean"),
+            dominant_ratio=("harmonic_ratio", lambda x: x.mode()[0] if not x.mode().empty else None),
+        )
+        .reset_index()
+    )
+else:
+    summary_df = pd.DataFrame(columns=["culture_region", "mean_cross_entropy_score", "dominant_ratio"])
 
 df = load_data()
 def build_summary(df: pd.DataFrame) -> pd.DataFrame:

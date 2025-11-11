@@ -4,6 +4,9 @@ import streamlit as st
 import plotly.express as px
 import numpy as np
 import io
+import matplotlib
+matplotlib.use("Agg")  # headless mode for Streamlit
+import matplotlib.pyplot as plt
 
 # --- Load Data ---
 DATA_PATH = "data/motifs_expanded.csv"

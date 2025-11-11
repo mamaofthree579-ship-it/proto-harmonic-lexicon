@@ -128,11 +128,18 @@ with tab5:
         if show_images:
             valid_images = filtered["symbol_image_path"].dropna().unique().tolist()
             if len(valid_images) > 0:
-                st.image(valid_images, caption=filtered["symbol_name"].tolist(), width=250)
-            else:
-                st.info("No motif images available for current selection.")
-    else:
-        st.info("🖼️ No image path column found in dataset.")
+    # Filter only rows that have valid image paths
+    gallery_df = filtered.dropna(subset=["symbol_image_path"])
+    gallery_df = gallery_df[gallery_df["symbol_image_path"].isin(valid_images)]
+
+    # Pair images with captions correctly
+    images = gallery_df["symbol_image_path"].tolist()
+    captions = gallery_df["symbol_name"].tolist()
+
+    # Display images side by side
+    st.image(images, caption=captions, width=250)
+else:
+    st.info("No motif images available for current selection.")
 
 # --- Tab 6: Motif Insights ---
 with tab6:

@@ -3,3 +3,6 @@ pandas
 networkx
 plotly
 kaleido
+Pillow
+matplotlib
+numpy

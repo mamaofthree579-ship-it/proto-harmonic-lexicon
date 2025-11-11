@@ -1,4 +1,4 @@
-id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description,latitude,longitude,symbol_image_path
+I'mid,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chronology_bce,frequency_cluster,probable_concept,description,latitude,longitude,symbol_image_path
 1,Spiral-Triskelion,Mediterranean,Malta-Temples,3:2,0.86,3400 BCE,A-Low,Cycle of creation / renewal,Triple spiral motif symbolizing regenerative cycles in nature.,35.885,14.446,data/images/M0001.svg
 2,Twin Serpents,Tamil,Vaigai Basin,5:3,0.75,2100 BCE,B-Mid,Energy duality / magnetic balance,Twin serpent forms representing energy polarity and balance.,9.920,78.120,
 3,Water-Seed Glyph,Mediterranean,Byblos,2:1,0.88,2800 BCE,A-Low,Life from hidden waters,Wave-line M-shaped motif tied to fertility and water deities.,34.123,35.652,
@@ -19,5 +19,36 @@ id,symbol_name,culture_region,site_name,harmonic_ratio,cross_entropy_score,chron
 18,Bindu Radiance,Tamil,Thanjavur,7:4,0.94,1100 BCE,C-High,Source / cosmic emanation,Central dot with radiant extensions in mural design.,10.785,79.137,
 19,Helical Cross,Mediterranean,Santorini,5:3,0.81,2400 BCE,B-Mid,Spiral energy / renewal,Interwoven helices forming cross motif.,36.393,25.461,
 20,Wave-Ring Spiral,Tamil,Kanyakumari,8:5,0.86,1400 BCE,B-Mid,Confluence / return,Composite spiral ring motif in coastal art.,8.088,77.538,
+21,Ankh Loop,Egypt,Thebes,5:4,0.88,3200 BCE,B-Mid,Life / breath of eternity,Looped cross representing life-force continuity.,25.717,32.657,
+22,Lotus-Crown,Egypt,Heliopolis,3:2,0.84,2900 BCE,A-Low,Rebirth / solar unfolding,Symmetrical lotus with solar core alignment.,30.128,31.291,
+23,Djed Pillar,Egypt,Memphis,4:3,0.79,2800 BCE,B-Mid,Stability / cosmic order,Columnar glyph linked to Osirian spinal energy.,29.850,31.254,
+24,Eye of Ra,Egypt,Abydos,7:4,0.93,2500 BCE,C-High,Awareness / solar consciousness,Concentric eye pattern radiating solar energy.,26.183,31.917,
+25,Boat of Millions,Egypt,Saqqara,9:8,0.81,2400 BCE,C-High,Journey of the sun,Boat symbol encoding diurnal resonance.,29.871,31.216,
+26,Winged Disk,Egypt,Edfu,2:1,0.87,2300 BCE,A-Low,Sun and horizon duality,Wings extend solar arc resonance pattern.,24.978,32.875,
+27,Double Feather,Egypt,Abydos,5:3,0.79,2100 BCE,B-Mid,Balance / truth,Ma’at’s dual feather motif balancing forces.,26.183,31.917,
+28,Ziggurat-Step,Mesopotamia,Ur,3:2,0.82,2900 BCE,A-Low,Layered ascent / vibration,Stepped motif encoding ascending harmonics.,30.963,46.103,
+29,Tree of Life,Mesopotamia,Eridu,5:4,0.91,2600 BCE,C-High,Cosmic axis / renewal,Symmetrical branching diagram of life currents.,30.815,47.365,
+30,Horned Sun,Mesopotamia,Nippur,4:3,0.77,2500 BCE,B-Mid,Power / celestial order,Horned disc echoing resonance of dual arcs.,32.125,45.183,
+31,Spiral-Star,Mesopotamia,Uruk,3:2,0.83,2700 BCE,A-Low,Creation spin / stellar motion,Spiral overlaid on eight-pointed star geometry.,31.323,45.634,
+32,Twin Rivers Glyph,Mesopotamia,Ur,5:3,0.88,2600 BCE,B-Mid,Flow duality / source union,Parallel water lines intersecting serpentine waves.,30.963,46.103,
+33,Crescent-Disc,Levant,Ugarit,2:1,0.84,2100 BCE,A-Low,Sun–moon polarity,Crescent arc encasing solar orb.,35.603,35.782,
+34,Serpent Crown,Levant,Byblos,5:4,0.79,1900 BCE,B-Mid,Protection / rebirth,Cobra diadem motif representing royal regeneration.,34.123,35.652,
+35,Mountain-Gate,Levant,Jericho,7:4,0.88,2000 BCE,C-High,Threshold / resonance ascent,Double-triangle gateway aligning cosmic directions.,31.870,35.443,
+36,Triple Flame,Levant,Tyre,3:2,0.82,1800 BCE,A-Low,Spirit / transformation,Trident-like motif encoding triple ignition of energy.,33.273,35.193,
+37,Eye-Star Seal,Levant,Byblos,8:5,0.85,1700 BCE,C-High,Vision through light,Eye over radiant star pattern found on seals.,34.123,35.652,
+38,Sun-Serpent Fusion,Levant,Palmyra,5:3,0.89,1500 BCE,C-High,Energy / awakening,Serpent coiling around radiant sun disc.,34.557,38.280,
+39,Water-Wheel,Mesopotamia,Uruk,9:8,0.76,2000 BCE,B-Mid,Cycles / fertility,Rotary waterwheel encoding lunar rhythm.,31.323,45.634,
+40,Pyramid-Wave,Egypt,Giza,3:2,0.93,2600 BCE,C-High,Harmonic ascension,Pyramidal geometry reflecting golden resonance ratios.,29.979,31.134,
+41,Four-Rayed Sun,Levant,Hatzor,4:3,0.78,1700 BCE,B-Mid,Directional harmony,Four-rayed solar glyph balancing east–west flow.,33.013,35.573,
+42,Coiled Falcon,Egypt,Edfu,5:3,0.87,1900 BCE,B-Mid,Spiral power / protection,Falcon coiled in harmonic rotation of wings.,24.978,32.875,
+43,Wave-Lotus,Egypt,Philae,8:5,0.91,1200 BCE,C-High,Resonance of life / sound,Vibrational wave merging with lotus symmetry.,24.023,32.883,
+44,Star-Anchor,Levant,Byblos,5:4,0.81,1400 BCE,B-Mid,Fixation in motion,Star motif joined to curved anchor cross.,34.123,35.652,
+45,Double Spiral Cross,Mesopotamia,Babylon,7:5,0.93,1300 BCE,C-High,Opposed flow / equilibrium,Interlaced spirals forming axial balance.,32.543,44.421,
+46,Boat-Sun Glyph,Egypt,Saqqara,5:2,0.88,2000 BCE,C-High,Journey of soul / solar path,Boat carrying radiant orb within arc.,29.871,31.216,
+47,Diamond Serpent,Levant,Ugarit,3:2,0.80,1700 BCE,A-Low,Weave of energy / dual motion,Serpent body forming diamond interlace.,35.603,35.782,
+48,Triple Disk Crown,Egypt,Thebes,9:8,0.84,1100 BCE,C-High,Sun–moon–star triad,Three discs in vertical resonance alignment.,25.717,32.657,
+49,Lunar Column,Mesopotamia,Uruk,4:3,0.82,1800 BCE,B-Mid,Lunar order / reflection,Vertical pillar of crescents stacked in pattern.,31.323,45.634,
+50,Horned Spiral Crown,Egypt,Abydos,5:4,0.91,1600 BCE,C-High,Resonant sovereignty / cycle of renewal,Spiral horns embracing solar orb on diadem.,26.183,31.917,
+
 
 

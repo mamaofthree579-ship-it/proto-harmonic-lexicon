@@ -1,11 +1,13 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
+import math
 import os
 
 st.set_page_config(page_title="Proto-Harmonic Lexicon Explorer", layout="wide")
 
-# --- Load data ---
+# --- Load Data ---
 @st.cache_data
 def load_data():
     file_path = "data/motifs_expanded.csv"
@@ -43,29 +45,26 @@ cluster_filter = st.sidebar.multiselect(
 
 # --- Apply Filters ---
 filtered = df.copy()
-
 if region_filter:
     filtered = filtered[filtered['culture_region'].isin(region_filter)]
-
 if ratio_filter:
     filtered = filtered[filtered['harmonic_ratio'].isin(ratio_filter)]
-
 if cluster_filter:
     filtered = filtered[filtered['frequency_cluster'].isin(cluster_filter)]
 
 # --- Tabs Layout ---
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📜 Data Overview",
     "🗺️ Atlas Map",
     "🌀 Harmonic Wheel",
-    "⏳ Chronological Timeline"
+    "⏳ Chronological Timeline",
+    "🎶 Frequency Geometry Visualizer"
 ])
 
 # --- Tab 1: Data Overview ---
 with tab1:
     st.subheader("📖 Motif Dataset Overview")
     st.dataframe(filtered, use_container_width=True)
-
     st.download_button(
         "⬇️ Download Filtered Data as CSV",
         filtered.to_csv(index=False).encode('utf-8'),
@@ -73,7 +72,6 @@ with tab1:
         "text/csv"
     )
 
-    # --- Motif Image Gallery ---
     if 'symbol_image_path' in filtered.columns:
         show_images = st.sidebar.checkbox("🖼️ Show motif images", value=True)
         if show_images:
@@ -107,7 +105,6 @@ with tab2:
 # --- Tab 3: Harmonic Wheel ---
 with tab3:
     st.subheader("🌀 Harmonic Resonance Wheel")
-
     if 'harmonic_ratio' in filtered.columns and not filtered.empty:
         fig = px.scatter_polar(
             filtered,
@@ -130,11 +127,8 @@ with tab3:
 # --- Tab 4: Chronological Timeline ---
 with tab4:
     st.subheader("⏳ Motif Chronology (BCE)")
-
     if 'chronology_bce' in filtered.columns and not filtered.empty:
         df_timeline = filtered.copy()
-
-        # Extract numeric values from "3400 BCE" etc.
         df_timeline['chronology_bce_numeric'] = (
             df_timeline['chronology_bce']
             .astype(str)
@@ -164,6 +158,70 @@ with tab4:
             st.warning("No valid chronological data found.")
     else:
         st.error("Chronology column missing from dataset.")
+
+# --- Tab 5: Frequency Geometry Visualizer ---
+with tab5:
+    st.subheader("🎶 Frequency Geometry Visualizer")
+
+    if 'harmonic_ratio' in filtered.columns and not filtered.empty:
+        selected_ratios = filtered['harmonic_ratio'].dropna().unique().tolist()
+
+        if selected_ratios:
+            ratio_choice = st.selectbox("Select a harmonic ratio to visualize:", selected_ratios)
+            
+            # Parse ratio
+            try:
+                num, den = map(float, ratio_choice.split(":"))
+                ratio_value = num / den
+            except:
+                st.error("Invalid ratio format.")
+                ratio_value = 1.0
+
+            # Generate chord geometry
+            steps = 24
+            angles = [i * 2 * math.pi / steps for i in range(steps)]
+            x_points = [math.cos(a) for a in angles]
+            y_points = [math.sin(a) for a in angles]
+
+            fig_geo = go.Figure()
+            fig_geo.add_trace(go.Scatter(
+                x=x_points + [x_points[0]],
+                y=y_points + [y_points[0]],
+                mode="lines",
+                line=dict(color="lightgray", width=1),
+                name="Circle"
+            ))
+
+            # Add ratio chords
+            chord_count = int(num + den)
+            for i in range(chord_count):
+                start_angle = (2 * math.pi / chord_count) * i
+                end_angle = start_angle * ratio_value
+                x0, y0 = math.cos(start_angle), math.sin(start_angle)
+                x1, y1 = math.cos(end_angle), math.sin(end_angle)
+                fig_geo.add_trace(go.Scatter(
+                    x=[x0, x1],
+                    y=[y0, y1],
+                    mode="lines",
+                    line=dict(width=2, color="gold"),
+                    showlegend=False
+                ))
+
+            fig_geo.update_layout(
+                title=f"Harmonic Geometry for Ratio {ratio_choice}  →  {round(ratio_value, 3)}",
+                xaxis=dict(showticklabels=False, visible=False),
+                yaxis=dict(showticklabels=False, visible=False),
+                width=600,
+                height=600,
+                plot_bgcolor="black",
+                paper_bgcolor="black"
+            )
+
+            st.plotly_chart(fig_geo, use_container_width=True)
+        else:
+            st.info("No harmonic ratios available in dataset.")
+    else:
+        st.warning("Harmonic ratio column missing or empty.")
 
 # --- Footer ---
 st.markdown("---")

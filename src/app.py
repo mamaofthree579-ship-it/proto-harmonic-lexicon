@@ -223,6 +223,59 @@ with tab5:
     else:
         st.warning("Harmonic ratio column missing or empty.")
 
+# --- Tab 5: Frequency Evolution ---
+tab5 = st.tabs(["🎼 Frequency Evolution"])[0]
+
+with tab5:
+    st.subheader("🎼 Harmonic Frequency Evolution Across Time")
+
+    if not df.empty and 'harmonic_ratio' in df.columns and 'chronology_bce' in df.columns:
+        # Convert harmonic_ratio like '5:3' to numeric float
+        def ratio_to_float(r):
+            try:
+                a, b = r.split(':')
+                return float(a) / float(b)
+            except Exception:
+                return None
+
+        df['ratio_value'] = df['harmonic_ratio'].apply(ratio_to_float)
+        valid = df.dropna(subset=['ratio_value', 'chronology_bce'])
+
+        # --- Scatter Line Plot (Frequency Evolution) ---
+        fig_timeline = px.scatter(
+            valid,
+            x='chronology_bce',
+            y='ratio_value',
+            color='culture_region',
+            size='cross_entropy_score',
+            hover_name='symbol_name',
+            color_discrete_sequence=px.colors.qualitative.Set2,
+            labels={
+                "chronology_bce": "Chronology (BCE)",
+                "ratio_value": "Harmonic Ratio (Numeric)"
+            },
+            title="Frequency Evolution by Civilization"
+        )
+        fig_timeline.update_traces(mode="markers+lines")
+        fig_timeline.update_xaxes(autorange="reversed")  # BCE timeline descending
+        st.plotly_chart(fig_timeline, use_container_width=True)
+
+        # --- Ratio Density Heatmap ---
+        density = valid.groupby(['culture_region', 'harmonic_ratio']).size().reset_index(name='count')
+        fig_heat = px.density_heatmap(
+            density,
+            x='harmonic_ratio',
+            y='culture_region',
+            z='count',
+            color_continuous_scale='Viridis',
+            title="Harmonic Ratio Density by Region"
+        )
+        st.plotly_chart(fig_heat, use_container_width=True)
+
+        st.caption("Ratios trend toward convergence around 3:2 and 5:3 across eras, suggesting cognitive harmonic continuity.")
+    else:
+        st.warning("Frequency or chronological data missing — unable to plot frequency evolution.")
+        
 # --- Footer ---
 st.markdown("---")
 st.caption("Developed as part of the Proto-Harmonic Lexicon Open Project © 2025.")

@@ -241,42 +241,47 @@ with tab7:
 tab8 = st.tabs(["🔺 Triadic Symbol Viewer"])[0]
 
 def draw_ratio_wheel(ratio_text):
-    """Draws a simple harmonic ratio wheel (e.g., 3:2) and returns as image bytes."""
+    """Draw a harmonic ratio wheel and return it as a PNG image buffer."""
     try:
         a, b = map(float, ratio_text.split(":"))
     except Exception:
         a, b = 1, 1
 
-    fig, ax = plt.subplots(figsize=(2, 2))
+    # --- create a non-interactive figure ---
+    fig = plt.figure(figsize=(2, 2))
+    ax = fig.add_subplot(111)
     ax.set_aspect("equal")
     ax.axis("off")
 
-    # Circle
+    # circle outline
     theta = np.linspace(0, 2 * np.pi, 400)
-    ax.plot(np.cos(theta), np.sin(theta), color="black", linewidth=1.5)
+    ax.plot(np.cos(theta), np.sin(theta), color="black", linewidth=1.2)
 
-    # Divide circle according to ratio
+    # compute sector angles
     total = a + b
     angle_a = 2 * np.pi * (a / total)
-    angle_b = 2 * np.pi * (b / total)
 
-    # Draw ratio sectors
-    ax.fill_between(np.cos(np.linspace(0, angle_a, 200)),
-                    np.sin(np.linspace(0, angle_a, 200)),
-                    color="black", alpha=0.2)
-    ax.fill_between(np.cos(np.linspace(angle_a, angle_a + angle_b, 200)),
-                    np.sin(np.linspace(angle_a, angle_a + angle_b, 200)),
-                    color="gray", alpha=0.2)
+    # shaded sectors
+    ax.fill_between(
+        np.cos(np.linspace(0, angle_a, 200)),
+        np.sin(np.linspace(0, angle_a, 200)),
+        color="black", alpha=0.25
+    )
+    ax.fill_between(
+        np.cos(np.linspace(angle_a, 2 * np.pi, 200)),
+        np.sin(np.linspace(angle_a, 2 * np.pi, 200)),
+        color="gray", alpha=0.15
+    )
 
-    # Text labels
+    # central label
     ax.text(0, 0, f"{int(a)}:{int(b)}", fontsize=10, ha="center", va="center")
 
+    # save to bytes buffer
     buf = io.BytesIO()
-    plt.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
+    fig.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
     plt.close(fig)
     buf.seek(0)
     return buf
-
 
 with tab8:
     st.subheader("🔺 Proto-Harmonic Triadic Symbol Viewer")

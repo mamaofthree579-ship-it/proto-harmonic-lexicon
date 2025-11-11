@@ -19,63 +19,6 @@ def load_data():
 
 df = load_data()
 
-# --- Harmonic Ratio Wheel Utility ---
-import matplotlib
-matplotlib.use("Agg")  # headless mode for Streamlit
-import matplotlib.pyplot as plt
-import numpy as np
-import io
-
-def draw_ratio_wheel(ratio_text):
-    """Draw a harmonic ratio wheel and return a PNG buffer for Streamlit."""
-    try:
-        # Expect format like "3:2" or "5:3"
-        a, b = map(float, ratio_text.split(":"))
-    except Exception:
-        a, b = 1.0, 1.0
-
-    # create figure safely
-    fig, ax = plt.subplots(figsize=(2, 2))
-    ax.set_aspect("equal")
-    ax.axis("off")
-
-    # circle outline
-    theta = np.linspace(0, 2 * np.pi, 400)
-    ax.plot(np.cos(theta), np.sin(theta), color="black", linewidth=1.2)
-
-    # compute harmonic sector angles
-    total = a + b
-    angle_a = 2 * np.pi * (a / total)
-
-    # fill the first sector
-    ax.fill_between(
-        np.cos(np.linspace(0, angle_a, 200)),
-        np.sin(np.linspace(0, angle_a, 200)),
-        color="black", alpha=0.3
-    )
-    # fill the remaining sector
-    ax.fill_between(
-        np.cos(np.linspace(angle_a, 2 * np.pi, 200)),
-        np.sin(np.linspace(angle_a, 2 * np.pi, 200)),
-        color="gray", alpha=0.15
-    )
-
-    # add central label
-    ax.text(0, 0, f"{int(a)}:{int(b)}", fontsize=10, ha="center", va="center")
-
-    # save to buffer for Streamlit
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
-    plt.close(fig)
-    buf.seek(0)
-    return buf
-    
-st.set_page_config(
-    page_title="Proto-Harmonic Lexicon Explorer",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
 # --- Build summary dataset for dashboard ---
 if not df.empty:
     summary_df = (

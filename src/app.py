@@ -138,7 +138,7 @@ with tab5:
 
          # Display images side by side
     st.image(images, caption=captions, width=250)
-else:
+   else:
     st.info("No motif images available for current selection.")
 
 # --- Tab 6: Motif Insights ---

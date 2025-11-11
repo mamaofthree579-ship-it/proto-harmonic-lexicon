@@ -257,7 +257,7 @@ with tab8:
             "concept": "Energy Duality / Magnetic Balance",
             "region": "Byblos / Phoenician ↔ Tamil / Naga",
             "symbolism": "Encodes dynamic polarity and intertwining life currents — the primordial field.",
-            "path": "data/images/M0002.svg"
+            "path": "data/images/IMG0002.png"
         },
         {
             "name": "Water-Seed Glyph",
@@ -265,7 +265,7 @@ with tab8:
             "concept": "Life from the Hidden Waters",
             "region": "Proto-Phoenician ‘M’ wave ↔ Tamil ‘Marai’ (sea, hidden)",
             "symbolism": "Signifies emergence of life from cosmic depth — fertility, memory, and renewal.",
-            "path": "data/images/M0003.svg"
+            "path": "data/images/IMG0003.png"
         },
     ]
 

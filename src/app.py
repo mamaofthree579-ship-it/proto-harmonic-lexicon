@@ -18,7 +18,30 @@ def load_data():
     return df
 
 df = load_data()
+def build_summary(df: pd.DataFrame) -> pd.DataFrame:
+    """Compute per-region harmonic summaries."""
+    if df.empty:
+        return pd.DataFrame()
 
+    # Convert ratios such as '5:3' safely
+    def safe_ratio(val):
+        return val if isinstance(val, str) and ':' in val else None
+    df = df.copy()
+    df['harmonic_ratio'] = df['harmonic_ratio'].apply(safe_ratio)
+
+    summary = (
+        df.groupby('culture_region')
+          .apply(lambda g: pd.Series({
+              "count": len(g),
+              "dominant_ratio": g['harmonic_ratio'].mode().iloc[0] if not g['harmonic_ratio'].mode().empty else None,
+              "mean_cross_entropy_score": round(g['cross_entropy_score'].mean(), 3),
+              "mean_chronology_bce": round(g['chronology_bce'].mean(), 0)
+          }))
+          .reset_index()
+    )
+    summary.to_csv("data/harmonic_summary.csv", index=False)
+    return summary
+    
 st.title("🌐 Proto-Harmonic Lexicon Explorer")
 st.markdown("Explore symbolic harmonics between early Mediterranean and Tamil traditions.")
 
